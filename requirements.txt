@@ -2,7 +2,7 @@ langchain
 ipykernel
 python-dotenv
 langchain-openai
-langchain_community
+langchain-community
 phidata
 duckduckgo-search
 streamlit

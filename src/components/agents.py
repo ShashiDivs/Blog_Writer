@@ -1,19 +1,31 @@
-from src.exception import BlogException
-from src.logger import logging
-import os, sys
-from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+# src/graph_builder.py
+from langgraph.graph import START, StateGraph
+from langgraph.prebuilt import tools_condition, ToolNode
+from src.components.assistant import assistant, tools 
+from langgraph.graph import MessagesState
+from typing_extensions import TypedDict
+from langchain_core.messages import AnyMessage
+from typing import Annotated
+from langgraph.graph.message import add_messages
 
-load_dotenv()
+# Define your state type for the graph
+class MessagesState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
 
-os.environ["GROQ_API_KEY"]=os.getenv("GROQ_API_KEY")
-os.environ["OPENAI_API_KEY"]=os.getenv("OPENAI_API_KEY")
+# Create the state graph
+builder = StateGraph(MessagesState)
 
+# Define nodes
+builder.add_node("assistant", assistant)
+builder.add_node("tools", ToolNode(tools))
 
-def simple_llm():
-    try:
-        llm=ChatOpenAI(model="o1-mini")
-        result = llm.invoke("What is generative AI")
-        return result.content
-    except Exception as e:
-        raise BlogException(e, sys)
+# Define edges
+builder.add_edge(START, "assistant")
+builder.add_conditional_edges("assistant", tools_condition)
+builder.add_edge("tools", "assistant")
+
+# Compile the graph
+react_graph = builder.compile()
+
+def get_reactive_graph():
+    return react_graph
