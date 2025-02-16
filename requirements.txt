@@ -1,0 +1,16 @@
+langchain
+ipykernel
+python-dotenv
+langchain-openai
+langchain_community
+phidata
+duckduckgo-search
+streamlit
+google-generativeai
+faiss-cpu
+arxiv
+wikipedia
+pypdf
+langchain-groq
+langgraph
+langgraph-cli[inmem]
