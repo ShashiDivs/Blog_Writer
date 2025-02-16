@@ -27,6 +27,7 @@ def content_writer(title: str) -> str:
     """
     content = (
         f"{title}\n\n"
+        f"Please write a comprehensive blog post of at least 500 words on this subject. "
         f"In this comprehensive blog post, we explore the subject in depth. "
         f"Throughout the article, you'll discover various perspectives, insights, and practical examples. "
         f"Stay tuned as we uncover key takeaways and provide an engaging narrative around the topic."
