@@ -1,8 +1,8 @@
 from langchain_core.messages import HumanMessage, SystemMessage
-from src.utils.blog_tools import title_creator, content_writer
+from src.utils.blog_tools import title_creator, content_writer,recommendation_agent
 from src.constants.contants import llm
 
-tools = [title_creator, content_writer]
+tools = [title_creator, content_writer,recommendation_agent]
 
 # Bind the tools to the LLM
 llm_with_tools = llm.bind_tools(tools, parallel_tool_calls=False)

@@ -20,5 +20,6 @@ def main():
     for m in state['messages']:
         m.pretty_print()
 
+
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 # src/graph_builder.py
-from langgraph.graph import START, StateGraph
+from langgraph.graph import START, StateGraph, END
 from langgraph.prebuilt import tools_condition, ToolNode
-from src.components.assistant import assistant, tools 
+from src.components.assistant import assistant, tools
 from langgraph.graph import MessagesState
 from typing_extensions import TypedDict
 from langchain_core.messages import AnyMessage
@@ -19,10 +19,13 @@ builder = StateGraph(MessagesState)
 builder.add_node("assistant", assistant)
 builder.add_node("tools", ToolNode(tools))
 
+
 # Define edges
 builder.add_edge(START, "assistant")
 builder.add_conditional_edges("assistant", tools_condition)
 builder.add_edge("tools", "assistant")
+builder.add_edge("assistant", END)
+
 
 # Compile the graph
 react_graph = builder.compile()

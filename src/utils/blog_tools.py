@@ -1,5 +1,7 @@
-
-
+from src.exception import BlogException
+import os,sys
+import wikipedia
+# These are Tools for creating title and Content
 
 def title_creator(blog_topic: str) -> str:
     """
@@ -33,3 +35,26 @@ def content_writer(title: str) -> str:
         f"Stay tuned as we uncover key takeaways and provide an engaging narrative around the topic."
     )
     return content
+
+
+def recommendation_agent(title: str) -> str:
+    """
+    Recommend 5 sources based on the provided blog title by searching Wikipedia.
+
+    Args:
+        title (str): The blog title.
+
+    Returns:
+        str: A formatted string containing 5 recommended source titles.
+    """
+    try:
+        # Search Wikipedia for the title, limiting to 5 results
+        results = wikipedia.search(title, results=5)
+        if results:
+            recommendations = "Recommended Sources:\n" + "\n".join(f"{i+1}. {result}" for i, result in enumerate(results))
+        else:
+            recommendations = "No sources found."
+    except Exception as e:
+        raise BlogException(e,sys)
+    return recommendations
+
